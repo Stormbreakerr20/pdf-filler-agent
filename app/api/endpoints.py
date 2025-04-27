@@ -22,6 +22,7 @@ async def chat(request: ChatRequest, background_tasks: BackgroundTasks):
         document_type = request.document_type or "default"
         user_id = memory_service.get_or_create_session(request.user_id, document_type)
         
+        print(user_id)
         # Get the last user message only
         last_message = request.messages[-1] if request.messages else None
         if last_message and last_message.role == "user":
@@ -30,7 +31,7 @@ async def chat(request: ChatRequest, background_tasks: BackgroundTasks):
             
             # Get all historic messages for context - now only for this document type
             all_messages = memory_service.get_messages(user_id)
-            
+            print(all_messages)
             # Process the chat request with full conversation history
             response_text, extracted_data = await chatbot_service.process_chat(all_messages, document_type)
             
@@ -124,3 +125,27 @@ async def select_document(user_id: Optional[str] = None, document_type: str = "d
         "document_type": document_type,
         "initial_message": initial_message
     }
+
+@router.get("/history/{user_id}")
+async def get_user_history(user_id: str):
+    """
+    Retrieve a user's chat history and generated documents
+    
+    Parameters:
+    - user_id: The unique identifier for the user
+    
+    Returns:
+    - A list of conversation sessions and documents generated for the user
+    """
+    try:
+        # Get user's conversation history
+        conversation_history = memory_service.get_messages(user_id)
+        return {
+            "user_id": user_id,
+            "history": conversation_history,
+
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error retrieving user history: {str(e)}")
+    
