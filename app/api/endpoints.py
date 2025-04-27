@@ -3,14 +3,14 @@ from fastapi.responses import FileResponse, JSONResponse
 from app.models.schemas import ChatRequest, ChatResponse, Message
 from app.services.chatbot import ChatbotService
 from app.services.pdf_service import PDFService
-from app.services.memory_service import MemoryService
+from app.services.pg_memory_service import PGMemoryService
 import os
 from typing import Optional
 
 router = APIRouter()
 chatbot_service = ChatbotService()
 pdf_service = PDFService()
-memory_service = MemoryService()
+memory_service = PGMemoryService()  # Use PostgreSQL memory service instead
 
 @router.post("/chat")
 async def chat(request: ChatRequest, background_tasks: BackgroundTasks):
@@ -22,16 +22,15 @@ async def chat(request: ChatRequest, background_tasks: BackgroundTasks):
         document_type = request.document_type or "default"
         user_id = memory_service.get_or_create_session(request.user_id, document_type)
         
-        print(user_id)
         # Get the last user message only
         last_message = request.messages[-1] if request.messages else None
         if last_message and last_message.role == "user":
             # Add user message to memory
             memory_service.add_message(user_id, last_message)
             
-            # Get all historic messages for context - now only for this document type
+            # Get all historic messages for context
             all_messages = memory_service.get_messages(user_id)
-            print(all_messages)
+            
             # Process the chat request with full conversation history
             response_text, extracted_data = await chatbot_service.process_chat(all_messages, document_type)
             
@@ -85,7 +84,7 @@ async def chat(request: ChatRequest, background_tasks: BackgroundTasks):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing chat: {str(e)}")
 
-# We can keep this endpoint for backward compatibility or remove it
+# Rest of the file remains the same
 @router.get("/download/{filename}")
 async def download_pdf(filename: str):
     """
@@ -130,12 +129,6 @@ async def select_document(user_id: Optional[str] = None, document_type: str = "d
 async def get_user_history(user_id: str):
     """
     Retrieve a user's chat history and generated documents
-    
-    Parameters:
-    - user_id: The unique identifier for the user
-    
-    Returns:
-    - A list of conversation sessions and documents generated for the user
     """
     try:
         # Get user's conversation history
@@ -143,9 +136,7 @@ async def get_user_history(user_id: str):
         return {
             "user_id": user_id,
             "history": conversation_history,
-
         }
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error retrieving user history: {str(e)}")
-    
