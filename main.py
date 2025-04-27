@@ -28,5 +28,5 @@ async def root():
     return {"status": "ok", "message": "PDF Filler Chatbot API is running"}
 
 
-if __name__ == "__main__":
-    uvicorn.run("main:app", port=8080, reload=True)
+# if __name__ == "__main__":
+#     uvicorn.run("main:app", port=8080, reload=True)
