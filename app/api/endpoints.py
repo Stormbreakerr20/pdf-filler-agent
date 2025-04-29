@@ -96,7 +96,6 @@ async def download_pdf(filename: str):
     
     return FileResponse(file_path, media_type="application/pdf", filename=filename)
 
-
 @router.delete("/session/{user_id}")
 async def clear_session(user_id: str):
     """
@@ -104,26 +103,6 @@ async def clear_session(user_id: str):
     """
     memory_service.clear_session(user_id)
     return {"status": "success", "message": f"Session {user_id} cleared successfully"}
-
-@router.post("/select-document")
-async def select_document(user_id: Optional[str] = None, document_type: str = "default"):
-    """
-    Create a new session or update an existing one with the selected document type
-    """
-    user_id = memory_service.get_or_create_session(user_id, document_type)
-    memory_service.set_document_type(user_id, document_type)
-    
-    # Return initial message based on document type
-    if document_type == "seller_disclosure":
-        initial_message = "I'll help you fill out the Seller Property Condition Disclosure Statement. Let's start with some basic information. How old is the house you're selling?"
-    else:
-        initial_message = "I'll help you fill out the form. Let's start with your name. What's your first and last name?"
-    
-    return {
-        "user_id": user_id,
-        "document_type": document_type,
-        "initial_message": initial_message
-    }
 
 @router.get("/history/{user_id}")
 async def get_user_history(user_id: str):
