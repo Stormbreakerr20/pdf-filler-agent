@@ -259,6 +259,16 @@ class PGMemoryService:
                 return "data" in data and "ageOfHouse" in data["data"] and data["data"]["ageOfHouse"]
             elif document_type == "lead_based_paint_disclosure":
                 return "data" in data and "propertyAddress" in data["data"] and data["data"]["propertyAddress"]
+            elif document_type == "cis_form":
+                return ("data" in data and 
+                       "LicenseeNameforSellersandLandlords" in data["data"] and 
+                       data["data"]["LicenseeNameforSellersandLandlords"])
+            elif document_type == "coming_soon_listing":
+                return ("data" in data and 
+                       "sellersName1" in data["data"] and 
+                       "firstShownDate" in data["data"] and
+                       data["data"]["sellersName1"] and
+                       data["data"]["firstShownDate"])
             
             return False
             
@@ -291,6 +301,29 @@ class PGMemoryService:
                 "data": {
                     "propertyAddress": "",
                     "lessorsDisclosureOfLeadBasedPaintHazards": ""
+                }
+            }
+        elif document_type == "cis_form":
+            return {
+                "documentType": "cis_form",
+                "data": {
+                    "LicenseeNameforSellersandLandlords": "",
+                    "BrokerageNameforSellersandLandlords": "",
+                    "LicenseeNameBuyersandTenants": "",
+                    "BrokerageNameforBuyersandTenants": ""
+                }
+            }
+        elif document_type == "coming_soon_listing":
+            return {
+                "documentType": "coming_soon_listing",
+                "data": {
+                    "sellersName1": "",
+                    "sellersName2": "",
+                    "sellersName3": "",
+                    "firstShownDate": "",
+                    "sellersSignatureDate1": "",
+                    "sellersSignatureDate2": "",
+                    "sellersSignatureDate3": ""
                 }
             }
         else:

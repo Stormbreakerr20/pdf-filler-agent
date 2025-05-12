@@ -54,6 +54,35 @@ class MemoryService:
                         "listOfDocumentsPertainingToLeadBasedHazards": ""
                     }
                 }
+            elif document_type == "cis_form":
+                self._collected_data[user_id] = {
+                    "title": "Cis 2024 Ts 54521",
+                    "fontSize": 10,
+                    "textColor": "#333333",
+                    "documentType": "cis_form",
+                    "data": {
+                        "LicenseeNameforSellersandLandlords": "",
+                        "BrokerageNameforSellersandLandlords": "",
+                        "LicenseeNameBuyersandTenants": "",
+                        "BrokerageNameforBuyersandTenants": ""
+                    }
+                }
+            elif document_type == "coming_soon_listing":
+                self._collected_data[user_id] = {
+                    "title": "COMING SOON LISTING FORM",
+                    "fontSize": 10,
+                    "textColor": "#333333",
+                    "documentType": "coming_soon_listing",
+                    "data": {
+                        "sellersName1": "",
+                        "sellersName2": "",
+                        "sellersName3": "",
+                        "firstShownDate": "",
+                        "sellersSignatureDate1": "",
+                        "sellersSignatureDate2": "",
+                        "sellersSignatureDate3": ""
+                    }
+                }
             
         return user_id
     
@@ -94,6 +123,37 @@ class MemoryService:
                     "propertyAddress": "",
                     "explanationOfKnownLeadBasedPaintHazards": "",
                     "listOfDocumentsPertainingToLeadBasedHazards": ""
+                }
+            }
+        elif document_type == "cis_form" and (user_id not in self._collected_data or
+                                            self._collected_data[user_id].get("documentType") != "cis_form"):
+            self._collected_data[user_id] = {
+                "title": "Cis 2024 Ts 54521",
+                "fontSize": 10,
+                "textColor": "#333333",
+                "documentType": "cis_form",
+                "data": {
+                    "LicenseeNameforSellersandLandlords": "",
+                    "BrokerageNameforSellersandLandlords": "",
+                    "LicenseeNameBuyersandTenants": "",
+                    "BrokerageNameforBuyersandTenants": ""
+                }
+            }
+        elif document_type == "coming_soon_listing" and (user_id not in self._collected_data or
+                                                     self._collected_data[user_id].get("documentType") != "coming_soon_listing"):
+            self._collected_data[user_id] = {
+                "title": "COMING SOON LISTING FORM",
+                "fontSize": 10,
+                "textColor": "#333333",
+                "documentType": "coming_soon_listing",
+                "data": {
+                    "sellersName1": "",
+                    "sellersName2": "",
+                    "sellersName3": "",
+                    "firstShownDate": "",
+                    "sellersSignatureDate1": "",
+                    "sellersSignatureDate2": "",
+                    "sellersSignatureDate3": ""
                 }
             }
     
@@ -183,6 +243,36 @@ class MemoryService:
             required_fields = [
                 "propertyAddress", 
                 "lessorsDisclosureOfLeadBasedPaintHazards"
+            ]
+            
+            for field in required_fields:
+                if not data["data"].get(field):
+                    return False
+                    
+            return True
+        elif document_type == "cis_form":
+            # For CIS form, check if required fields are filled
+            if "data" not in data:
+                return False
+                
+            required_fields = [
+                "LicenseeNameforSellersandLandlords",
+                "BrokerageNameforSellersandLandlords"
+            ]
+            
+            for field in required_fields:
+                if not data["data"].get(field):
+                    return False
+                    
+            return True
+        elif document_type == "coming_soon_listing":
+            # For coming soon listing, check if required fields are filled
+            if "data" not in data:
+                return False
+                
+            required_fields = [
+                "sellersName1",
+                "firstShownDate" 
             ]
             
             for field in required_fields:

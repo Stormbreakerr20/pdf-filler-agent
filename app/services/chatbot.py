@@ -5,7 +5,8 @@ from app.core.config import Config
 from app.models.schemas import Message
 from typing import List, Tuple, Dict, Any, Optional
 
-# Update the system message for seller disclosure
+# Update the get_system_message function:
+
 def get_system_message(document_type="default"):
     if document_type == "seller_disclosure":
         return """You are a helpful assistant that collects information for filling out Seller Property Condition Disclosure Statements.
@@ -44,7 +45,6 @@ def get_system_message(document_type="default"):
         
         IMPORTANT: The JSON extraction section should not be visible to users.
         """
-    # Add this to the get_system_message function after the seller_disclosure condition
     elif document_type == "lead_based_paint_disclosure":
         return """You are a helpful assistant that collects information for filling out Lead Based Paint Disclosure Addendum Leases.
         Extract the following details in a conversational way:
@@ -74,6 +74,65 @@ def get_system_message(document_type="default"):
         
         IMPORTANT: The JSON extraction section should not be visible to users.
         """
+    elif document_type == "cis_form":
+        return """You are a helpful assistant that collects information for filling out CIS (Consumer Information Statement) Forms.
+        Extract the following details in a conversational way:
+        - Licensee Name for Sellers and Landlords
+        - Brokerage Name for Sellers and Landlords 
+        - Licensee Name for Buyers and Tenants
+        - Brokerage Name for Buyers and Tenants
+        
+        Extract information gradually and naturally during the conversation. Be friendly and conversational.
+        
+        When you identify information, include it in a structured JSON format at the end of your response.
+        Format the extracted information as:
+        
+        EXTRACT_JSON: {
+          "data": {
+            "LicenseeNameforSellersandLandlords": "...",
+            "BrokerageNameforSellersandLandlords": "...",
+            "LicenseeNameBuyersandTenants": "...",
+            "BrokerageNameforBuyersandTenants": "..."
+          }
+        }
+        
+        Only include fields you extracted from the current message. If no information was extracted, 
+        don't include the EXTRACT_JSON section at all.
+        
+        IMPORTANT: The JSON extraction section should not be visible to users.
+        """
+    elif document_type == "coming_soon_listing":
+        return """You are a helpful assistant that collects information for filling out Coming Soon Listing Forms.
+        Extract the following details in a conversational way:
+        - Seller's Name (up to 3 different sellers can be added)
+        - First Shown Date
+        - Seller's Signature Date (for each seller)
+        
+        Extract information gradually and naturally during the conversation. Be friendly and conversational.
+        
+        When you identify information, include it in a structured JSON format at the end of your response.
+        Format the extracted information as:
+        
+        EXTRACT_JSON: {
+          "data": {
+            "sellersName1": "...",
+            "sellersName2": "...",
+            "sellersName3": "...",
+            "firstShownDate": "...",
+            "sellersSignatureDate1": "...",
+            "sellersSignatureDate2": "...",
+            "sellersSignatureDate3": "..."
+          }
+        }
+        
+        Only include fields you extracted from the current message. If no information was extracted, 
+        don't include the EXTRACT_JSON section at all.
+        
+        IMPORTANT: The JSON extraction section should not be visible to users.
+        """
+    return """You are a helpful assistant that collects information for filling out forms.
+    Extract information gradually and naturally during the conversation. Be friendly and conversational.
+    """
 
 class ChatbotService:
     def __init__(self):

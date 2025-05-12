@@ -51,6 +51,33 @@ class LeadBasedPaintDisclosurePDFData(BaseModel):
     documentType: Literal["lead_based_paint_disclosure"] = "lead_based_paint_disclosure"
 
 
+class CISFormPDFData(BaseModel):
+    title: str = "Cis 2024 Ts 54521"
+    fontSize: int = 10
+    textColor: str = "#333333"
+    data: Dict[str, str] = {
+        "LicenseeNameforSellersandLandlords": "",
+        "BrokerageNameforSellersandLandlords": "",
+        "LicenseeNameBuyersandTenants": "",
+        "BrokerageNameforBuyersandTenants": ""
+    }
+    documentType: Literal["cis_form"] = "cis_form"
+
+class ComingSoonListingFormPDFData(BaseModel):
+    title: str = "COMING SOON LISTING FORM"
+    fontSize: int = 10
+    textColor: str = "#333333"
+    data: Dict[str, str] = {
+        "sellersName1": "",
+        "sellersName2": "",
+        "sellersName3": "",
+        "firstShownDate": "",
+        "sellersSignatureDate1": "",
+        "sellersSignatureDate2": "",
+        "sellersSignatureDate3": ""
+    }
+    documentType: Literal["coming_soon_listing"] = "coming_soon_listing"
+
 # Use RootModel instead of __root__ field
-class PDFData(RootModel[Union[SellerDisclosurePDFData, LeadBasedPaintDisclosurePDFData]]):
+class PDFData(RootModel[Union[SellerDisclosurePDFData, LeadBasedPaintDisclosurePDFData, CISFormPDFData, ComingSoonListingFormPDFData]]):
     pass

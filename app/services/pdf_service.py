@@ -11,6 +11,8 @@ class PDFService:
         self.default_template_eid = Config.PDF_TEMPLATE_EID
         self.seller_disclosure_template_eid = Config.SELLER_DISCLOSURE_TEMPLATE_EID
         self.lead_paint_disclosure_template_eid = Config.LEAD_PAINT_DISCLOSURE_TEMPLATE_EID
+        self.cis_form_template_eid = Config.CIS_FORM_TEMPLATE_EID
+        self.coming_soon_listing_template_eid = Config.COMING_SOON_LISTING_TEMPLATE_EID
         self.output_dir = Config.BASE_OUTPUT_DIR
         
         # Create output directory if it doesn't exist
@@ -31,8 +33,12 @@ class PDFService:
             template_eid = self.seller_disclosure_template_eid
         elif pdf_data.get("documentType") == "lead_based_paint_disclosure":
             template_eid = self.lead_paint_disclosure_template_eid
+        elif pdf_data.get("documentType") == "cis_form":
+            template_eid = self.cis_form_template_eid
+        elif pdf_data.get("documentType") == "coming_soon_listing":
+            template_eid = self.coming_soon_listing_template_eid
         
-        # Make PDF fill requestl
+        # Make PDF fill request
         response = self.anvil.fill_pdf(template_eid, pdf_data)
         
         # Save filled PDF

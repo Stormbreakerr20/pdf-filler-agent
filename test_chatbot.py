@@ -32,13 +32,19 @@ def select_document_type():
     print("\nSelect document type:")
     print("1. Seller Disclosure")
     print("2. Lead Based Paint Disclosure")
+    print("3. CIS Form")
+    print("4. Coming Soon Listing Form")
     
     while True:
-        choice = input("Enter choice (1-2): ")
+        choice = input("Enter choice (1-4): ")
         if choice == '1':
             return "seller_disclosure"
         elif choice == '2':
-            return "`lead_based_paint_disclosure`"
+            return "lead_based_paint_disclosure"
+        elif choice == '3':
+            return "cis_form"
+        elif choice == '4':
+            return "coming_soon_listing"
         else:
             print("Invalid choice, please try again.")
 
