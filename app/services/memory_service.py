@@ -83,6 +83,68 @@ class MemoryService:
                         "sellersSignatureDate3": ""
                     }
                 }
+            elif document_type == "mls_change_form":
+                self._collected_data[user_id] = {
+                    "title": "Multiple Listing System Property Change Form 8 24",
+                    "fontSize": 10,
+                    "textColor": "#333333",
+                    "documentType": "mls_change_form",
+                    "data": {
+                        "propertyType": "",
+                        "ml#": "",
+                        "changeDate": "",
+                        "streetName": "",
+                        "officePhone": "",
+                        "agentPhone": "",
+                        "newListPriceperSqFt": "",
+                        "newExpirationDate": "",
+                        "fieldName1": "",
+                        "change1": "",
+                        "fieldName2": "",
+                        "change2": "",
+                        "fieldName3": "",
+                        "change3": "",
+                        "fieldName4": "",
+                        "change4": "",
+                        "additionalInformation": "",
+                        "TownName": "",
+                        "AgentName": "",
+                        "AgentID#": "",
+                        "OfficeID#": "",
+                        "OfficeName": "",
+                        "Street#": "",
+                        "BrokerName": "",
+                        "OwnerorLandlordName": ""
+                    }
+                }
+            elif document_type == "informed_consent":
+                self._collected_data[user_id] = {
+                    "title": "Standard Form Of Informed Consent To Designated Agency Seller",
+                    "fontSize": 10,
+                    "textColor": "#333333",
+                    "documentType": "informed_consent",
+                    "data": {
+                        "designatingBrokerName": "",
+                        "propertyAddress": "",
+                        "BrokerageFirmName": "",
+                        "LicenseeName": ""
+                    }
+                }
+            elif document_type == "dual_agency_consent":
+                self._collected_data[user_id] = {
+                    "title": "Informed Consent To Dual Agency Seller",
+                    "fontSize": 10,
+                    "textColor": "#333333",
+                    "documentType": "dual_agency_consent",
+                    "data": {
+                        "propertyAddress": "",
+                        "LicenseeName": "",
+                        "NameofFirm": "",
+                        "BrokerageCityStateandZip": "",
+                        "BrokerageAddress": "",
+                        "BrokerageName": ""
+                    }
+                }
             
         return user_id
     
@@ -154,6 +216,71 @@ class MemoryService:
                     "sellersSignatureDate1": "",
                     "sellersSignatureDate2": "",
                     "sellersSignatureDate3": ""
+                }
+            }
+        elif document_type == "mls_change_form" and (user_id not in self._collected_data or
+                                                  self._collected_data[user_id].get("documentType") != "mls_change_form"):
+            self._collected_data[user_id] = {
+                "title": "Multiple Listing System Property Change Form 8 24",
+                "fontSize": 10,
+                "textColor": "#333333",
+                "documentType": "mls_change_form",
+                "data": {
+                    "propertyType": "",
+                    "ml#": "",
+                    "changeDate": "",
+                    "streetName": "",
+                    "officePhone": "",
+                    "agentPhone": "",
+                    "newListPriceperSqFt": "",
+                    "newExpirationDate": "",
+                    "fieldName1": "",
+                    "change1": "",
+                    "fieldName2": "",
+                    "change2": "",
+                    "fieldName3": "",
+                    "change3": "",
+                    "fieldName4": "",
+                    "change4": "",
+                    "additionalInformation": "",
+                    "TownName": "",
+                    "AgentName": "",
+                    "AgentID#": "",
+                    "OfficeID#": "",
+                    "OfficeName": "",
+                    "Street#": "",
+                    "BrokerName": "",
+                    "OwnerorLandlordName": ""
+                }
+            }
+        elif document_type == "informed_consent" and (user_id not in self._collected_data or
+                                                   self._collected_data[user_id].get("documentType") != "informed_consent"):
+            self._collected_data[user_id] = {
+                "title": "Standard Form Of Informed Consent To Designated Agency Seller",
+                "fontSize": 10,
+                "textColor": "#333333",
+                "documentType": "informed_consent",
+                "data": {
+                    "designatingBrokerName": "",
+                    "propertyAddress": "",
+                    "BrokerageFirmName": "",
+                    "LicenseeName": ""
+                }
+            }
+        elif document_type == "dual_agency_consent" and (user_id not in self._collected_data or
+                                                     self._collected_data[user_id].get("documentType") != "dual_agency_consent"):
+            self._collected_data[user_id] = {
+                "title": "Informed Consent To Dual Agency Seller",
+                "fontSize": 10,
+                "textColor": "#333333",
+                "documentType": "dual_agency_consent",
+                "data": {
+                    "propertyAddress": "",
+                    "LicenseeName": "",
+                    "NameofFirm": "",
+                    "BrokerageCityStateandZip": "",
+                    "BrokerageAddress": "",
+                    "BrokerageName": ""
                 }
             }
     
@@ -273,6 +400,56 @@ class MemoryService:
             required_fields = [
                 "sellersName1",
                 "firstShownDate" 
+            ]
+            
+            for field in required_fields:
+                if not data["data"].get(field):
+                    return False
+                    
+            return True
+        elif document_type == "mls_change_form":
+            # For MLS Change Form, check if required fields are filled
+            if "data" not in data:
+                return False
+                
+            required_fields = [
+                "propertyType",
+                "ml#",
+                "changeDate",
+                "AgentName"
+            ]
+            
+            for field in required_fields:
+                if not data["data"].get(field):
+                    return False
+                    
+            return True
+        elif document_type == "informed_consent":
+            # For Informed Consent Form, check if required fields are filled
+            if "data" not in data:
+                return False
+                
+            required_fields = [
+                "designatingBrokerName",
+                "propertyAddress",
+                "BrokerageFirmName",
+                "LicenseeName"
+            ]
+            
+            for field in required_fields:
+                if not data["data"].get(field):
+                    return False
+                    
+            return True
+        elif document_type == "dual_agency_consent":
+            # For Dual Agency Consent Form, check if required fields are filled
+            if "data" not in data:
+                return False
+                
+            required_fields = [
+                "propertyAddress",
+                "LicenseeName",
+                "BrokerageName"
             ]
             
             for field in required_fields:

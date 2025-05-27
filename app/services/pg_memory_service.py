@@ -269,6 +269,34 @@ class PGMemoryService:
                        "firstShownDate" in data["data"] and
                        data["data"]["sellersName1"] and
                        data["data"]["firstShownDate"])
+            elif document_type == "mls_change_form":
+                return ("data" in data and 
+                       "propertyType" in data["data"] and
+                       "ml#" in data["data"] and
+                       "changeDate" in data["data"] and
+                       "AgentName" in data["data"] and
+                       data["data"]["propertyType"] and
+                       data["data"]["ml#"] and
+                       data["data"]["changeDate"] and
+                       data["data"]["AgentName"])
+            elif document_type == "informed_consent":
+                return ("data" in data and 
+                       "designatingBrokerName" in data["data"] and
+                       "propertyAddress" in data["data"] and
+                       "BrokerageFirmName" in data["data"] and
+                       "LicenseeName" in data["data"] and
+                       data["data"]["designatingBrokerName"] and
+                       data["data"]["propertyAddress"] and
+                       data["data"]["BrokerageFirmName"] and
+                       data["data"]["LicenseeName"])
+            elif document_type == "dual_agency_consent":
+                return ("data" in data and 
+                       "propertyAddress" in data["data"] and
+                       "LicenseeName" in data["data"] and
+                       "BrokerageName" in data["data"] and
+                       data["data"]["propertyAddress"] and
+                       data["data"]["LicenseeName"] and
+                       data["data"]["BrokerageName"])
             
             return False
             
@@ -324,6 +352,41 @@ class PGMemoryService:
                     "sellersSignatureDate1": "",
                     "sellersSignatureDate2": "",
                     "sellersSignatureDate3": ""
+                }
+            }
+        elif document_type == "mls_change_form":
+            return {
+                "documentType": "mls_change_form",
+                "data": {
+                    "propertyType": "",
+                    "ml#": "",
+                    "changeDate": "",
+                    "streetName": "",
+                    "AgentName": "",
+                    "TownName": "",
+                    "OwnerorLandlordName": ""
+                }
+            }
+        elif document_type == "informed_consent":
+            return {
+                "documentType": "informed_consent",
+                "data": {
+                    "designatingBrokerName": "",
+                    "propertyAddress": "",
+                    "BrokerageFirmName": "",
+                    "LicenseeName": ""
+                }
+            }
+        elif document_type == "dual_agency_consent":
+            return {
+                "documentType": "dual_agency_consent",
+                "data": {
+                    "propertyAddress": "",
+                    "LicenseeName": "",
+                    "NameofFirm": "",
+                    "BrokerageCityStateandZip": "",
+                    "BrokerageAddress": "",
+                    "BrokerageName": ""
                 }
             }
         else:

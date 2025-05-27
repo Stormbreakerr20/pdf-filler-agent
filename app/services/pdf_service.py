@@ -13,6 +13,9 @@ class PDFService:
         self.lead_paint_disclosure_template_eid = Config.LEAD_PAINT_DISCLOSURE_TEMPLATE_EID
         self.cis_form_template_eid = Config.CIS_FORM_TEMPLATE_EID
         self.coming_soon_listing_template_eid = Config.COMING_SOON_LISTING_TEMPLATE_EID
+        self.mls_change_form_template_eid = Config.MLS_CHANGE_FORM_TEMPLATE_EID
+        self.informed_consent_template_eid = Config.INFORMED_CONSENT_TEMPLATE_EID
+        self.dual_agency_consent_template_eid = Config.DUAL_AGENCY_CONSENT_TEMPLATE_EID
         self.output_dir = Config.BASE_OUTPUT_DIR
         
         # Create output directory if it doesn't exist
@@ -37,6 +40,12 @@ class PDFService:
             template_eid = self.cis_form_template_eid
         elif pdf_data.get("documentType") == "coming_soon_listing":
             template_eid = self.coming_soon_listing_template_eid
+        elif pdf_data.get("documentType") == "mls_change_form":
+            template_eid = self.mls_change_form_template_eid
+        elif pdf_data.get("documentType") == "informed_consent":
+            template_eid = self.informed_consent_template_eid
+        elif pdf_data.get("documentType") == "dual_agency_consent":
+            template_eid = self.dual_agency_consent_template_eid
         
         # Make PDF fill request
         response = self.anvil.fill_pdf(template_eid, pdf_data)

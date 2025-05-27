@@ -78,6 +78,67 @@ class ComingSoonListingFormPDFData(BaseModel):
     }
     documentType: Literal["coming_soon_listing"] = "coming_soon_listing"
 
+class MLSPropertyChangeFormPDFData(BaseModel):
+    title: str = "Multiple Listing System Property Change Form 8 24"
+    fontSize: int = 10
+    textColor: str = "#333333"
+    data: Dict[str, str] = {
+        "propertyType": "",
+        "ml#": "",
+        "changeDate": "",
+        "streetName": "",
+        "officePhone": "",
+        "agentPhone": "",
+        "newListPriceperSqFt": "",
+        "newExpirationDate": "",
+        "fieldName1": "",
+        "change1": "",
+        "fieldName2": "",
+        "change2": "",
+        "fieldName3": "",
+        "change3": "",
+        "fieldName4": "",
+        "change4": "",
+        "additionalInformation": "",
+        "TownName": "",
+        "AgentName": "",
+        "AgentID#": "",
+        "OfficeID#": "",
+        "OfficeName": "",
+        "Street#": "",
+        "BrokerName": "",
+        "OwnerorLandlordName": ""
+    }
+    documentType: Literal["mls_change_form"] = "mls_change_form"
+
+class InformedConsentFormPDFData(BaseModel):
+    title: str = "Standard Form Of Informed Consent To Designated Agency Seller"
+    fontSize: int = 10
+    textColor: str = "#333333"
+    data: Dict[str, str] = {
+        "designatingBrokerName": "",
+        "propertyAddress": "",
+        "BrokerageFirmName": "",
+        "LicenseeName": ""
+    }
+    documentType: Literal["informed_consent"] = "informed_consent"
+
+class DualAgencyConsentFormPDFData(BaseModel):
+    title: str = "Informed Consent To Dual Agency Seller"
+    fontSize: int = 10
+    textColor: str = "#333333"
+    data: Dict[str, str] = {
+        "propertyAddress": "",
+        "LicenseeName": "",
+        "NameofFirm": "",
+        "BrokerageCityStateandZip": "",
+        "BrokerageAddress": "",
+        "BrokerageName": ""
+    }
+    documentType: Literal["dual_agency_consent"] = "dual_agency_consent"
+
 # Use RootModel instead of __root__ field
-class PDFData(RootModel[Union[SellerDisclosurePDFData, LeadBasedPaintDisclosurePDFData, CISFormPDFData, ComingSoonListingFormPDFData]]):
+class PDFData(RootModel[Union[SellerDisclosurePDFData, LeadBasedPaintDisclosurePDFData, CISFormPDFData, 
+                              ComingSoonListingFormPDFData, MLSPropertyChangeFormPDFData, InformedConsentFormPDFData,
+                              DualAgencyConsentFormPDFData]]):
     pass

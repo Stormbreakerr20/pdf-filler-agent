@@ -34,9 +34,12 @@ def select_document_type():
     print("2. Lead Based Paint Disclosure")
     print("3. CIS Form")
     print("4. Coming Soon Listing Form")
+    print("5. MLS Property Change Form")
+    print("6. Informed Consent Form")
+    print("7. Dual Agency Consent Form")
     
     while True:
-        choice = input("Enter choice (1-4): ")
+        choice = input("Enter choice (1-7): ")
         if choice == '1':
             return "seller_disclosure"
         elif choice == '2':
@@ -45,6 +48,12 @@ def select_document_type():
             return "cis_form"
         elif choice == '4':
             return "coming_soon_listing"
+        elif choice == '5':
+            return "mls_change_form"
+        elif choice == '6':
+            return "informed_consent"
+        elif choice == '7':
+            return "dual_agency_consent"
         else:
             print("Invalid choice, please try again.")
 
@@ -61,8 +70,20 @@ def display_chat_interface():
     # Update page title based on document type
     if selected_doc_type == "seller_disclosure":
         title = "Seller Disclosure Form Chat Bot"
-    else:
+    elif selected_doc_type == "lead_based_paint_disclosure":
         title = "Lead Based Paint Disclosure Chat Bot"
+    elif selected_doc_type == "cis_form":
+        title = "CIS Form Chat Bot"
+    elif selected_doc_type == "coming_soon_listing":
+        title = "Coming Soon Listing Form Chat Bot"
+    elif selected_doc_type == "mls_change_form":
+        title = "MLS Property Change Form Chat Bot"
+    elif selected_doc_type == "informed_consent":
+        title = "Informed Consent Form Chat Bot"
+    elif selected_doc_type == "dual_agency_consent":
+        title = "Dual Agency Consent Form Chat Bot"
+    else:
+        title = "PDF Form Chat Bot"
     
     clear_screen()
     print("=" * 80)
